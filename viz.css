@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css?family=Merriweather:900|Open+Sans:400');
+body {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+    color: #37474f;
+	-webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+#section1 {
+    background: #fafafa;
+}
+#cover {
+    background: #fafafa;
+    position: absolute;
+}
+#title-row {
+    height: 100vh;
+}
+#title {
+    font-family: 'Merriweather', serif;
+    font-weight: 900;
+	color: #37474f;
+}
+
+#subtitle {
+    color: #607d8b;
+}
+
+#maxline {
+    color: #fdbb2d;
+}
+#minline {
+    color: #22c1c3;
+}
+
+/* SVG Element styles */
+svg {
+    shape-rendering: auto;
+}
+svg .maxChart {
+    stroke: #fdbb2d;
+    stroke-width: 1px;
+}
+svg .minChart {
+    stroke: #22c1c3;
+    stroke-width: 1px;
+}
