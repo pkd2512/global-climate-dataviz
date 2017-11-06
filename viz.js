@@ -37,20 +37,23 @@ d3.csv('data/glt.csv', function(error, data) {
           });
     // Redraw the chart on window resize
     wd.addEventListener("resize", function() {
-        d3.select("#cover svg").remove();
-        w = wd.innerWidth || e.clientWidth || g.clientWidth,
-        h = wd.innerHeight|| e.clientHeight|| g.clientHeight;
-        d3.queue()
-        .defer(minMaxChart,glt_data,0,1)
-        .await(function(error) {
-            if (error) console.log(error);            
-            setTimeout(function() {
-                tooltipCover(1,($("#cover g:nth-child(1) line").length),"LandMaxTemperature","#fdbb2d");
-                tooltipCover(2,($("#cover g:nth-child(2) line").length),"LandMinTemperature","#22c1c3");   
-                console.log("tooltipCover added!");              
-            }, 7500);              
-          });
-        console.log("resized");
+        w_new = wd.innerWidth || e.clientWidth || g.clientWidth,
+        h_new = wd.innerHeight|| e.clientHeight|| g.clientHeight;
+        if (w_new!=w && h_new!=h) {
+            w=w_new, h=h_new;
+            d3.select("#cover svg").remove();
+            d3.queue()
+            .defer(minMaxChart,glt_data,0,1)
+            .await(function(error) {
+                if (error) console.log(error);            
+                setTimeout(function() {
+                    tooltipCover(1,($("#cover g:nth-child(1) line").length),"LandMaxTemperature","#fdbb2d");
+                    tooltipCover(2,($("#cover g:nth-child(2) line").length),"LandMinTemperature","#22c1c3");   
+                    console.log("tooltipCover added!");              
+                }, 7500);              
+            });
+            console.log("resized");
+        }
     });
 });
 function minMaxChart(data, start, gap, callback) {    
