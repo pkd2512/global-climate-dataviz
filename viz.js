@@ -27,14 +27,18 @@ d3.csv('data/glt.csv', function(error, data) {
     });
     console.log(glt_data);
     drawMinMax("Monthly");
-    // Redraw the chart on window resize
+    // Redraw the cover chart on window resize
     wd.addEventListener("resize", function() {
         w_new = wd.innerWidth || e.clientWidth || g.clientWidth,
         h_new = wd.innerHeight|| e.clientHeight|| g.clientHeight;
         if (w_new!=w && h_new!=h) {
             w=w_new, h=h_new;
             d3.select("#cover svg").remove();
-            drawMinMax("Monthly");
+            let s = "";
+            $("#coverSeason .active").each(function () {
+                s = $(this).attr("id");
+            });
+            drawMinMax(s);
         }
     });
 });
@@ -109,6 +113,13 @@ var drawMinMax = function(season) {
             }, delay);              
           });
 }
+/* THIS IS THE SECTION FOR NON-VIZ JS/JQUERY */
+// Button click active
+$("button").on("click", function () {
+   $(this).siblings().removeClass("active");
+   $(this).addClass("active"); 
+});
+
 // Checking mobile browser
 var isMobile = {
     Android: function() {

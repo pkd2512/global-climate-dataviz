@@ -36,12 +36,12 @@
     <section id="section2" class="mb-5">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-outline-secondary btn-sm mb-2" autofocus="autofocus" onclick="drawMinMax('Monthly')">All Months</button>
-                    <button type="radio" class="btn btn-outline-secondary btn-sm mb-2" onclick="drawMinMax('Summer')">Summer</button>
-                    <button type="radio" class="btn btn-outline-secondary btn-sm mb-2" onclick="drawMinMax('Autumn')">Autumn</button>
-                    <button type="radio" class="btn btn-outline-secondary btn-sm mb-2" onclick="drawMinMax('Winter')">Winter</button>
-                    <button type="radio" class="btn btn-outline-secondary btn-sm mb-2" onclick="drawMinMax('Spring')">Spring</button> 
+                <div class="btn-group" id="coverSeason" role="group">
+                    <button type="button" class="btn btn-outline-secondary btn-sm mb-2 active" id="Monthly" onclick="drawMinMax('Monthly')">All Months</button>
+                    <button type="radio" class="btn btn-outline-secondary btn-sm mb-2" id="Summer" onclick="drawMinMax('Summer')">Summer</button>
+                    <button type="radio" class="btn btn-outline-secondary btn-sm mb-2" id="Autumn" onclick="drawMinMax('Autumn')">Autumn</button>
+                    <button type="radio" class="btn btn-outline-secondary btn-sm mb-2" id="Winter" onclick="drawMinMax('Winter')">Winter</button>
+                    <button type="radio" class="btn btn-outline-secondary btn-sm mb-2" id="Spring" onclick="drawMinMax('Spring')">Spring</button> 
                 </div>  
             </div>            
 
