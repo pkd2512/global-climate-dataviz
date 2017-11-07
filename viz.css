@@ -3,18 +3,20 @@ body {
     font-family: 'Open Sans', sans-serif;
     font-weight: 400;
     color: #37474f;
+    background: #fafafa;
 	-webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
-#section1 {
+
+/* #section1 {
     background: #fafafa;
-}
+} */
 #cover {
-    background: #fafafa;
+    /* background: #fafafa; */
     position: absolute;
 }
 #title-row {
-    height: 100vh;
+    height: 95vh;
 }
 #title {
     font-family: 'Merriweather', serif;
@@ -22,7 +24,7 @@ body {
 	color: #37474f;
 }
 
-#subtitle {
+.lead, #subtitle {
     color: #607d8b;
 }
 

@@ -62,14 +62,16 @@ function minMaxChart(data, start, gap, callback) {
     // let tempMin = d3.min(data, function (d) {return(d.LandMinTemperature)});
     // console.log(tempMax,tempMin);
     // Drawing the semi-circular Max-Min Temperature chart
-    let svgContainer = d3.select("#cover").append("svg").attr("width", w).attr("height", h);
+    let svgWidth = w; 
+    if(!isMobile.any()) {svgWidth = w-30;} // Prevent .row overflow on desktop 
+    let svgContainer = d3.select("#cover").append("svg").attr("width", svgWidth).attr("height", h);
     let xScale = d3.scaleLinear().domain([0,glt_data.length]).range([0,180]);
     let scaleFactor = 18;
     let radius = (h/2);
     let p=1, q=1, t=0;
     // SVG groups to store the min and max bars
-    svgContainer.append("g").attr("transform", "translate("+w/2+","+h+")"); 
-    svgContainer.append("g").attr("transform", "translate("+w/2+","+h+")");  
+    svgContainer.append("g").attr("transform", "translate("+svgWidth/2+","+h+")"); 
+    svgContainer.append("g").attr("transform", "translate("+svgWidth/2+","+h+")");  
     // Plotting the Max lines   
     for(i=start; i<glt_data.length; i+=gap) { 
         let from = -radius;
@@ -111,4 +113,24 @@ function tooltipCover(group, size, type, color) {
         });
     }
 }
-    
+// Checking mobile browser
+var isMobile = {
+    Android: function() {
+        return navigator.userAgent.match(/Android/i);
+    },
+    BlackBerry: function() {
+        return navigator.userAgent.match(/BlackBerry/i);
+    },
+    iOS: function() {
+        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+    },
+    Opera: function() {
+        return navigator.userAgent.match(/Opera Mini/i);
+    },
+    Windows: function() {
+        return navigator.userAgent.match(/IEMobile/i);
+    },
+    any: function() {
+        return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+    }
+};    
