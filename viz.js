@@ -21,20 +21,12 @@ d3.csv('data/glt.csv', function(error, data) {
             LandAverageTemperature: +d.LandAverageTemperature,
             LandMaxTemperature: +d.LandMaxTemperature,
             LandMinTemperature: +d.LandMinTemperature,
-            LandAndOceanAverageTemperature: +d.LandAndOceanAverageTemperature
+            LandAndOceanAverageTemperature: +d.LandAndOceanAverageTemperature,
+            season: d.season
         };
     });
     console.log(glt_data);
-    d3.queue()
-        .defer(minMaxChart,glt_data,0,1)
-        .await(function(error) {
-            if (error) console.log(error);            
-            setTimeout(function() {
-                tooltipCover(1,($("#cover g:nth-child(1) line").length),"LandMaxTemperature","#fdbb2d");
-                tooltipCover(2,($("#cover g:nth-child(2) line").length),"LandMinTemperature","#22c1c3");   
-                console.log("tooltipCover added!");              
-            }, 7500);              
-          });
+    drawMinMax("Monthly");
     // Redraw the chart on window resize
     wd.addEventListener("resize", function() {
         w_new = wd.innerWidth || e.clientWidth || g.clientWidth,
@@ -42,17 +34,7 @@ d3.csv('data/glt.csv', function(error, data) {
         if (w_new!=w && h_new!=h) {
             w=w_new, h=h_new;
             d3.select("#cover svg").remove();
-            d3.queue()
-            .defer(minMaxChart,glt_data,0,1)
-            .await(function(error) {
-                if (error) console.log(error);            
-                setTimeout(function() {
-                    tooltipCover(1,($("#cover g:nth-child(1) line").length),"LandMaxTemperature","#fdbb2d");
-                    tooltipCover(2,($("#cover g:nth-child(2) line").length),"LandMinTemperature","#22c1c3");   
-                    console.log("tooltipCover added!");              
-                }, 7500);              
-            });
-            console.log("resized");
+            drawMinMax("Monthly");
         }
     });
 });
@@ -65,18 +47,18 @@ function minMaxChart(data, start, gap, callback) {
     let svgWidth = w; 
     if(!isMobile.any()) {svgWidth = w-30;} // Prevent .row overflow on desktop 
     let svgContainer = d3.select("#cover").append("svg").attr("width", svgWidth).attr("height", h);
-    let xScale = d3.scaleLinear().domain([0,glt_data.length]).range([0,180]);
+    let xScale = d3.scaleLinear().domain([0,data.length]).range([0,180]);
     let scaleFactor = 18;
     let radius = (h/2);
-    let p=1, q=1, t=0;
+    let p=1, q=1;
     // SVG groups to store the min and max bars
-    svgContainer.append("g").attr("transform", "translate("+svgWidth/2+","+h+")"); 
-    svgContainer.append("g").attr("transform", "translate("+svgWidth/2+","+h+")");  
+    let maxSvg = svgContainer.append("g").attr("transform", "translate("+svgWidth/2+","+h+")"); 
+    let minSvg = svgContainer.append("g").attr("transform", "translate("+svgWidth/2+","+h+")");  
     // Plotting the Max lines   
-    for(i=start; i<glt_data.length; i+=gap) { 
+    for(i=start; i<data.length; i+=gap) { 
         let from = -radius;
-        let to = -(radius+(scaleFactor*glt_data[i].LandMaxTemperature));
-        svgContainer.select("g:nth-child(1)").append('line').classed("maxChart", true)
+        let to = -(radius+(scaleFactor*data[i].LandMaxTemperature));
+        maxSvg.append('line').classed("maxChart", true)
             .attr("transform", "rotate("+ xScale(i) +")")
             .attrs({x1: from, y1:0, x2: from, y2:0})
             .transition().duration(p*5).ease(d3.easeCubic)
@@ -84,22 +66,21 @@ function minMaxChart(data, start, gap, callback) {
         p++;
     }    
     // Plotting the Min lines
-    for(i=start; i<glt_data.length; i+=gap) {             
+    for(i=start; i<data.length; i+=gap) {             
         let from = -radius;
-        let to = -(radius+(scaleFactor*glt_data[i].LandMinTemperature));        
-        svgContainer.select("g:nth-child(2)").append('line').classed("minChart", true)
+        let to = -(radius+(scaleFactor*data[i].LandMinTemperature));        
+        minSvg.append('line').classed("minChart", true)
             .attr("transform", "rotate("+ xScale(i) +")")
             .attrs({x1: from, y1:0, x2: from, y2:0})
             .transition().duration(q*5).ease(d3.easeCubic)
             .attrs({x2: to, y2: 0});  
-        t+=q*5;
         q++;          
     }
    // svgContainer.append("circle").attr("cx", w/2).attr("cy", h).attr("r", radius).attr("stroke", "black").attr("fill", "none");
    callback(null);
 }
 // Tooltip the lines
-function tooltipCover(group, size, type, color) {
+function tooltipCover(data, group, size, type, color) {
     for(i=1; i<size; i++) {
         $("#cover g:nth-child("+group+") line:nth-child("+i+")").tooltip ({
             "trigger": "hover focus",
@@ -108,10 +89,25 @@ function tooltipCover(group, size, type, color) {
             "placement": "auto",
             "offset": "0",
             "animation": true,
-            "title": months[glt_data[i-1].dt.getMonth()]+", "+glt_data[i-1].dt.getFullYear()+" | "+glt_data[i-1][type].toFixed(2)+"&degC",
+            "title": months[data[i-1].dt.getMonth()]+", "+data[i-1].dt.getFullYear()+" | "+data[i-1][type].toFixed(2)+"&degC",
             "html": true
         });
     }
+}
+var drawMinMax = function(season) {
+    let minMax_Data = glt_data;
+    if (season != "Monthly") { minMax_Data = glt_data.filter(function(d){ return d.season === season}); } d3.select("#cover svg").remove();       
+    let delay = minMax_Data.length*3.5;
+    d3.queue()
+        .defer(minMaxChart,minMax_Data,0,1)
+        .await(function(error) {
+            if (error) console.log(error);            
+            setTimeout(function() {
+                tooltipCover(minMax_Data,1,($("#cover g:nth-child(1) line").length),"LandMaxTemperature","#fdbb2d");
+                tooltipCover(minMax_Data,2,($("#cover g:nth-child(2) line").length),"LandMinTemperature","#22c1c3");   
+                console.log("tooltipCover added!");              
+            }, delay);              
+          });
 }
 // Checking mobile browser
 var isMobile = {

@@ -35,7 +35,17 @@
     </section>
     <section id="section2" class="mb-5">
         <div class="container">
-        <div class="row justify-content-center">
+            <div class="row justify-content-center">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-outline-secondary btn-sm mb-2" autofocus="autofocus" onclick="drawMinMax('Monthly')">All Months</button>
+                    <button type="radio" class="btn btn-outline-secondary btn-sm mb-2" onclick="drawMinMax('Summer')">Summer</button>
+                    <button type="radio" class="btn btn-outline-secondary btn-sm mb-2" onclick="drawMinMax('Autumn')">Autumn</button>
+                    <button type="radio" class="btn btn-outline-secondary btn-sm mb-2" onclick="drawMinMax('Winter')">Winter</button>
+                    <button type="radio" class="btn btn-outline-secondary btn-sm mb-2" onclick="drawMinMax('Spring')">Spring</button> 
+                </div>  
+            </div>            
+
+            <div class="row justify-content-center">
                 <p class="text-center small d-inline">Global&nbsp;</p>
                 <p class="text-center small d-inline-block" id="maxline">&mdash; Maximum &nbsp; </p>
                 <p class="text-center small d-inline">and&nbsp;</p> 
