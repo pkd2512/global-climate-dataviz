@@ -85,7 +85,7 @@ function minMaxChart(data, start, gap, callback) {
 }
 // Tooltip the lines
 function tooltipCover(data, group, size, type, color) {
-    for(i=1; i<size; i++) {
+    for(i=1; i<=size; i++) {
         $("#cover g:nth-child("+group+") line:nth-child("+i+")").tooltip ({
             "trigger": "hover focus",
             "template": '<div class="tooltip" role="tooltip"><div class="tooltip-inner small" style="background-color:#37474f; color:'+color+';"></div></div>',
@@ -101,7 +101,7 @@ function tooltipCover(data, group, size, type, color) {
 var drawMinMax = function(season) {
     let minMax_Data = glt_data;
     if (season != "Monthly") { minMax_Data = glt_data.filter(function(d){ return d.season === season}); } d3.select("#cover svg").remove();       
-    let delay = minMax_Data.length*3.5;
+    let delay = minMax_Data.length*3.8;
     d3.queue()
         .defer(minMaxChart,minMax_Data,0,1)
         .await(function(error) {

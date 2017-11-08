@@ -1,6 +1,10 @@
-@import url('https://fonts.googleapis.com/css?family=Merriweather:900|Open+Sans:400');
+@import url('https://fonts.googleapis.com/css?family=Merriweather:900|Noto+Sans:400');
+html {
+    /* font-size: 87.5%; */
+}
+
 body {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Noto Sans', sans-serif;
     font-weight: 400;
     color: #37474f;
     background: #fafafa;
@@ -41,6 +45,11 @@ body {
 .lead, #subtitle {
     color: #607d8b;
 }
+.alert-light {
+    color: #37474f;
+    background-color: #ffffff;
+    border-color: #fefefe;
+}
 #maxline {
     color: #fdbb2d;
 }
@@ -54,9 +63,9 @@ svg {
 }
 svg .maxChart {
     stroke: #fdbb2d;
-    stroke-width: 1px;
+    stroke-width: 2px;
 }
 svg .minChart {
     stroke: #22c1c3;
-    stroke-width: 1px;
+    stroke-width: 2px;
 }
